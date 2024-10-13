@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  - push
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - run: npx prettier --check .
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - run: |
+          npx ng test ngx-mat-dialog --watch=false --browsers=ChromeHeadless
+          npx ng test demo --watch=false --browsers=ChromeHeadless
+          npx ng build demo
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs:
+      - format
+      - test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - run: |
+          npx ng build ngx-mat-dialog
+          cp README.md dist/ngx-mat-dialog
+
+      - uses: JS-DevTools/npm-publish@v3
+        if: github.ref_name == 'main'
+        id: publish
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: ./dist/ngx-mat-dialog
+          tag: latest
+          access: public
+          strategy: upgrade
+
+      - uses: anothrNick/github-tag-action@v1
+        if: github.ref_name == 'main' && steps.publish.outputs.type
+        env:
+          CUSTOM_TAG: ${{ steps.publish.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+
+      - uses: softprops/action-gh-release@v2
+        if: github.ref_name == 'main' && steps.publish.outputs.type
+        with:
+          tag_name: ${{ steps.publish.outputs.version }}
+          body: "Changelog: https://github.com/soc221b/ngx-mat-dialog/blob/${{ steps.publish.outputs.version }}/projects/ngx-mat-dialog/CHANGELOG.md"

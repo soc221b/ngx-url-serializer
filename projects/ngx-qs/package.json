@@ -1,0 +1,16 @@
+{
+  "name": "ngx-qs",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": ">= 16.0.0",
+    "@angular/core": ">= 16.0.0",
+    "qs": "*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "qs": "^6.13.0"
+  }
+}
