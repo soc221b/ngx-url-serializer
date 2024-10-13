@@ -1,0 +1,6 @@
+<button (click)="onSetSimpleQueryParams()">Set string - value</button>
+<br />
+<button (click)="onSetComplexQueryParams()">Set object as query params</button>
+<br />
+QueryParams as json :
+{{ activatedRoute.queryParams | async | json }}
