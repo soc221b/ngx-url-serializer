@@ -2,6 +2,21 @@
   "name": "ngx-url-serializer",
   "version": "0.1.0",
   "sideEffects": false,
+  "license": "MIT",
+  "author": "Ernest <soc221b.e@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soc221b/ngx-url-serializer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soc221b/ngx-url-serializer/issues"
+  },
+  "homepage": "https://github.com/soc221b/ngx-url-serializer#readme",
+  "keywords": [
+    "angular",
+    "router",
+    "qs"
+  ],
   "peerDependencies": {
     "@angular/common": ">= 16.0.0",
     "@angular/core": ">= 16.0.0",
