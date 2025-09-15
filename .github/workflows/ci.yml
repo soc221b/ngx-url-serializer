@@ -55,7 +55,7 @@ jobs:
           npx ng build ngx-url-serializer
           cp README.md dist/ngx-url-serializer
 
-      - uses: JS-DevTools/npm-publish@v3
+      - uses: JS-DevTools/npm-publish@v4
         if: github.ref_name == 'main'
         id: publish
         with:
